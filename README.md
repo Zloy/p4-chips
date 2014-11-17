@@ -41,10 +41,10 @@ The reservation could be persisted in a database one by one, e.g. when pleayer j
 
 ### Reservation cancellation
 
-When player1 decides not to wait the game gets required players number, he could leave the game if the game is not has being started yet.
+When player1 decides not to wait the game gets required players number, he could leave the game if the game has not being started yet.
 
     player1.balance.chips.for_game_id(324565).cancel
-    # or 
+    # or
     reservation = player1.balance.chips.for_game_id(324565).reserve(200)
     reservation.cancel
     
