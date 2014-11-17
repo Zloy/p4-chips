@@ -1,4 +1,4 @@
-p4_chips
+p4-chips
 =======
 
 Provide virtual game chips, handle game and players chips balances, gains and losses
