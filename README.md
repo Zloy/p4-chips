@@ -1,17 +1,11 @@
-p4_shop
+p4_chips
 =======
 
-Provide virtual game goods and purchases, handle players goods balances, gains and losses
+Provide virtual game chips, handle game and players chips balances, gains and losses
 
-## Goods
+## Chips
 
-Goods are all sorts values players can use in games. Such as **chips**, **gifts** or **effects** players can use certain times or during time period.
-
-The most important good is chips. Without chips users can not play a game. Some other goods examples:
-
-gifts: flowers, tips, prepaid starbuck coffee cards, whatever
-
-effects: hide own stats from other players for 30 days, use random avatar per game for 30 days, nuke the opponent once, decrease oppenent's time for move once, etc.
+Without chips player can not play games. Player can buy chips, sell them, win and lose in games.
 
 ## Interface
 
@@ -38,7 +32,6 @@ The reservation could be persisted in a database one by one, e.g. when pleayer j
     reservation = player1.balance.chips.for_game_id(324565).reserve(200)
     reservation.persist
     
-
 ### Reservation cancellation
 
 When player1 decides not to wait the game gets required players number, he could leave the game if the game has not being started yet.
