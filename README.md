@@ -11,12 +11,25 @@ Chips are measured in natural numbers.
 
 ## Interface
 
+### Setting up
+
+This gem should be informed of Player class and Player object method which returns player identifier. 
+The Player object identifier should be either of Integer or String - VARCHAR(255) type. 
+
+    P4::Chips.configure User, :id, :balance    # here User object has :id method and is to be granted :balance entry method
+    
+    # or
+
+    P4::Chips.configure Player, :email, :chips # here Player is a class to be granted with entry method (:chips)
+                                               # here :email is a method of Player object identifier
+                                               # here :chips is a method name to grant Player object with
+
 ### Checking chips balances
 
 Player chips could be either free (available to join a game), or reserved if the player has already joined game(s).
 
     player1.chips.free         # 1200 chips are available to perform reservation for a game
-    player1.chips.reserved     #   {} chips are reserved for certain game(s) or empty hash
+    player1.chips.reserved     #   [] chips are reserved for certain game(s) or empty array
 
 ### Reserving chips as player's stack in a game
 
@@ -26,7 +39,7 @@ These chips become reserved for certain game.
 
     player1.chips.reserve_game(200, 324565) # chips, game_id
     player1.chips.free         # 1000 chips are available to perform reservation for a game
-    player1.chips.reserved     # {game_id: 324565, chips: 200} chips are reserved for certain game
+    player1.chips.reserved     # [{game_id: 324565, chips: 200}] chips are reserved for certain game
 
 If player tries to reserve more chips than he has, `P4::BALANCE::INSUFFICIENT_FUNDS` exception is being raised.
 
@@ -58,7 +71,7 @@ or could perform a series of intermediate results fixation:
       player2.chips.lose(20)
     end
 
-If the game tries to fix more chips than left reserved, `P4::BALANCE::INSUFFICIENT_FUNDS` exception is being raised.
+If the game tries to fix more chips than left reserved to it, `P4::BALANCE::INSUFFICIENT_FUNDS` exception is being raised.
 
 ### Buying, selling chips
 
@@ -74,4 +87,4 @@ A player could sell chips. DB transaction takes place in a block.
       # deposit player1 money here
     end
 
-If chips not enough, `P4::BALANCE::INSUFFICIENT_FUNDS` exception is being raised.
+If player1 has less free chips than to be sold, `P4::BALANCE::INSUFFICIENT_FUNDS` exception is being raised.

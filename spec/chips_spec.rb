@@ -5,24 +5,46 @@ describe P4::Chips do
     expect(P4::Chips.class).to eql Module
   end
 
-  let(:config_in_block){
-    P4::Chips.configure do |c|
-      return c
+  before :all do
+    class User
+      attr_reader :email
+      def initialize email
+        @email = email
+      end
     end
-  }
 
-  it ".config" do
-    expect(P4::Chips.respond_to? :config).to be true
-    expect{P4::Chips.config.class.should eq(Hashie::Mash)}
-    P4::Chips.config.some_param = "test01"
-    expect{P4::Chips.config.some_param.to eq("test01")}
+    P4::Chips.configure User, :email, :chips
   end
 
-  it ".configure" do
-    expect(P4::Chips.respond_to? :configure).to be true
-    expect{config_in_block.class.should eq(Hashie::Mash)}
+  let(:p1){ User.new 'jane@gmail.com'}
+  let(:p2){ User.new 'jess@gmail.com'}
+  let(:p3){ User.new 'john@gmail.com'}
 
-    config_in_block.some_param = "test02"
-    expect{P4::Chips.config.some_param.to eq("test02")}
+  it ".configure" do
+    expect(p1.respond_to? :chips).to be true
+  end
+
+  it "User#chips object should have certain public methods" do
+    expect((p1.chips.methods - Object.instance_methods).sort).to eq [:gain, :lose]
+  end
+
+  it "Chips module should have certain public methods" do
+    expect((P4::Chips.methods - Class.methods).sort).to eq [:configure, :fix_game]
+  end
+
+  it ".fix_game should do its stuff and return proper hash" do
+    game_results = P4::Chips.fix_game 1234 do
+      p1.chips.lose 150
+      p2.chips.lose  50
+      p3.chips.gain 200
+    end
+    expect(game_results.class).to eq Hash
+    expect(game_results.keys.sort).to eq [:game_id, :players]
+    expect(game_results[:game_id]).to eq 1234
+    expect(game_results[:players].size).to eq 3
+    expect(game_results[:players]).to eq \
+      [{player_id:p1.send(:email), chips:-150}, 
+       {player_id:p2.send(:email), chips:-50}, 
+       {player_id:p3.send(:email), chips:200}]
   end
 end
