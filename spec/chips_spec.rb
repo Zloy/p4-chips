@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'yaml'
 
 describe P4::Chips do
   it "should be a module" do
@@ -14,6 +15,15 @@ describe P4::Chips do
     end
 
     P4::Chips.configure User, :email, :chips
+
+    # Standalone migrations setup
+    @original_dir = Dir.pwd
+    Dir.chdir( File.expand_path("../../", __FILE__) )
+    FileUtils.mkdir_p "tmp/db"
+    Dir.chdir "tmp"
+    env_hash = {"test" => { "adapter" => "sqlite3", "database" => "db/test.sql" }}
+    File.open("db/config.yml", "w"){ |f| f.write env_hash.to_yaml }
+    Dir.chdir @original_dir
   end
 
   let(:p1){ User.new 'jane@gmail.com'}
