@@ -14,7 +14,7 @@ Chips are measured in natural numbers.
 ### Setting up
 
 This gem should be informed of Player class and Player object method which returns player identifier. 
-The Player object identifier should be either of Integer or String - VARCHAR(255) type. 
+The Player object identifier should be an Integer. It also needs api entry point name. 
 
     P4::Chips.configure User, :id, :balance    # here User object has :id method and is to be granted :balance entry method
     
