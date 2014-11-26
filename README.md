@@ -3,6 +3,13 @@ p4-chips
 
 Provide game virtual chips, handle game and players chips balances, gains and losses.
 
+## Testing
+
+  cd <gem root directory>
+  rake db:create
+  rake db:migrate DB=test
+  rake spec
+
 ## Chips
 
 Without chips player cannot play game. Player can buy chips, sell them, win and lose in games.

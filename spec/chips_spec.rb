@@ -1,5 +1,7 @@
 require 'spec_helper'
 require 'yaml'
+require 'standalone_migrations'
+require 'pry-byebug'
 
 describe P4::Chips do
   it "should be a module" do
@@ -7,28 +9,17 @@ describe P4::Chips do
   end
 
   before :all do
-    class User
-      attr_reader :email
-      def initialize email
-        @email = email
-      end
+    class User< ActiveRecord::Base
+      set_table_name 'p4_chips_test_users'
+      establish_connection adapter: 'sqlite3', database: 'db/test.sqlite3'
     end
 
-    P4::Chips.configure User, :email, :chips
-
-    # Standalone migrations setup
-    @original_dir = Dir.pwd
-    Dir.chdir( File.expand_path("../../", __FILE__) )
-    FileUtils.mkdir_p "tmp/db"
-    Dir.chdir "tmp"
-    env_hash = {"test" => { "adapter" => "sqlite3", "database" => "db/test.sql" }}
-    File.open("db/config.yml", "w"){ |f| f.write env_hash.to_yaml }
-    Dir.chdir @original_dir
+    P4::Chips.configure User, :id, :chips
   end
 
-  let(:p1){ User.new 'jane@gmail.com'}
-  let(:p2){ User.new 'jess@gmail.com'}
-  let(:p3){ User.new 'john@gmail.com'}
+  let(:p1){ User.create name: 'jane@gmail.com'}
+  let(:p2){ User.create name: 'jess@gmail.com'}
+  let(:p3){ User.create name: 'john@gmail.com'}
 
   it ".configure" do
     expect(p1.respond_to? :chips).to be true
@@ -53,8 +44,8 @@ describe P4::Chips do
     expect(game_results[:game_id]).to eq 1234
     expect(game_results[:players].size).to eq 3
     expect(game_results[:players]).to eq \
-      [{player_id:p1.send(:email), chips:-150}, 
-       {player_id:p2.send(:email), chips:-50}, 
-       {player_id:p3.send(:email), chips:200}]
+      [{player_id:p1.send(:id), chips:-150}, 
+       {player_id:p2.send(:id), chips:-50}, 
+       {player_id:p3.send(:id), chips:200}]
   end
 end
