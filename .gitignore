@@ -21,3 +21,4 @@ tmp
 *.a
 *.sqlite3
 mkmf.log
+Session.vim
