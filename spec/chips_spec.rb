@@ -2,6 +2,7 @@ require 'spec_helper'
 require 'yaml'
 require 'standalone_migrations'
 require 'pry-byebug'
+require 'p4/chips/test_user'
 
 describe P4::Chips do
   it "should be a module" do
@@ -9,17 +10,13 @@ describe P4::Chips do
   end
 
   before :all do
-    class User< ActiveRecord::Base
-      set_table_name 'p4_chips_test_users'
-    end
-
     db_connection_config = { adapter: 'sqlite3', database: 'db/test.sqlite3' }
-    P4::Chips.configure User, :id, :chips, db_connection_config
+    P4::Chips.configure P4::Chips::TestUser, :id, :chips, db_connection_config
   end
 
-  let(:p1){ User.create name: 'jane@gmail.com'}
-  let(:p2){ User.create name: 'jess@gmail.com'}
-  let(:p3){ User.create name: 'john@gmail.com'}
+  let(:p1){ P4::Chips::TestUser.create name: 'jane@gmail.com'}
+  let(:p2){ P4::Chips::TestUser.create name: 'jess@gmail.com'}
+  let(:p3){ P4::Chips::TestUser.create name: 'john@gmail.com'}
 
   it ".configure" do
     expect(p1.respond_to? :chips).to be true
