@@ -11,10 +11,10 @@ describe P4::Chips do
   before :all do
     class User< ActiveRecord::Base
       set_table_name 'p4_chips_test_users'
-      establish_connection adapter: 'sqlite3', database: 'db/test.sqlite3'
     end
 
-    P4::Chips.configure User, :id, :chips
+    db_connection_config = { adapter: 'sqlite3', database: 'db/test.sqlite3' }
+    P4::Chips.configure User, :id, :chips, db_connection_config
   end
 
   let(:p1){ User.create name: 'jane@gmail.com'}
@@ -30,7 +30,8 @@ describe P4::Chips do
   end
 
   it "Chips module should have certain public methods" do
-    expect((P4::Chips.methods - Class.methods).sort).to eq [:configure, :fix_game]
+    expect((P4::Chips.methods - Class.methods).sort).to eq \
+      [:configure, :fix_game, :table_name_prefix]
   end
 
   it ".fix_game should do its stuff and return proper hash" do

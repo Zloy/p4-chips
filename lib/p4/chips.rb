@@ -1,3 +1,4 @@
+require "active_record"
 require "p4/chips/version"
 
 module P4
@@ -6,10 +7,11 @@ module P4
       'p4_chips_'
     end
 
-    def self.configure player_class, player_id_method, player_api_method
+    def self.configure player_class, player_id_method, player_api_method, db_connection_config
       player_class.send :define_method, player_api_method do
         Chips::Player.new(self.send player_id_method)
       end
+      ActiveRecord::Base.establish_connection db_connection_config
     end
 
     def self.fix_game game_id
