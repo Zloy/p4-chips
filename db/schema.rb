@@ -17,4 +17,14 @@ ActiveRecord::Schema.define(:version => 20141126151129) do
     t.string "name", :null => false
   end
 
+  create_table "p4_chips_transactions", :force => true do |t|
+    t.integer  "user_id",    :null => false
+    t.integer  "game_id",    :null => false
+    t.integer  "qty"
+    t.float    "amount"
+    t.string   "type"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
 end

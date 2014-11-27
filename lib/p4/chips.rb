@@ -1,5 +1,6 @@
 require "active_record"
 require "p4/chips/version"
+require "p4/chips/transaction"
 
 module P4
   module Chips
