@@ -1,14 +1,8 @@
 require 'spec_helper'
-require 'p4/chips/test_user'
 
 describe P4::Chips do
   it "should be a module" do
     expect(P4::Chips.class).to eql Module
-  end
-
-  before :all do
-    db_connection_config = { adapter: 'sqlite3', database: 'db/test.sqlite3' }
-    P4::Chips.configure P4::Chips::TestUser, :id, :chips, db_connection_config
   end
 
   let(:p1){ P4::Chips::TestUser.create name: 'jane@gmail.com'}
