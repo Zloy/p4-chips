@@ -28,10 +28,10 @@ describe P4::Chips do
 
   it "Chips module should have certain public methods" do
     expect((P4::Chips.methods - Class.methods).sort).to eq \
-      [:configure, :fix_game, :table_name_prefix]
+      [:configure, :fix_game, :game_results_valid?, :table_name_prefix]
   end
 
-  it ".fix_game should do its stuff and return proper hash" do
+  it ".fix_game should return proper hash" do
     game_results = P4::Chips.fix_game 1234 do
       p1.chips.lose 150
       p2.chips.lose  50
@@ -45,5 +45,21 @@ describe P4::Chips do
       [{player_id:p1.send(:id), chips:-150}, 
        {player_id:p2.send(:id), chips:-50}, 
        {player_id:p3.send(:id), chips:200}]
+  end
+
+  it ".game_results_valid?" do
+    game_results = P4::Chips.fix_game 1234 do
+      p1.chips.lose 150
+      p2.chips.lose  50
+      p3.chips.gain 200
+    end
+    expect(P4::Chips.game_results_valid?).to be true
+
+    game_results = P4::Chips.fix_game 1234 do
+      p1.chips.lose 150
+      p2.chips.lose  50
+      p3.chips.gain 201
+    end
+    expect(P4::Chips.game_results_valid?).to be false
   end
 end

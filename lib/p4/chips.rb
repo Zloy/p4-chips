@@ -46,6 +46,10 @@ module P4
       @@game_results
     end
 
+    def self.game_results_valid?
+      @@game_results[:players].map{|e| e[:chips]}.inject(:+) == 0
+    end
+
     private_class_method :create_game_results, :fix_player, :fix_game_results
 
     class Player
