@@ -11,12 +11,10 @@ describe P4::Chips::Balance do
   before :each do
     # start balances
     b = P4::Chips::Balance.find_or_create_by_user_id 2
-    b.qty = 100
-    b.save!
+    b.update_attribute :qty, 100
 
     b = P4::Chips::Balance.find_or_create_by_user_id 3
-    b.qty = 1000
-    b.save!
+    b.update_attribute :qty, 1000
   end
 
   it ".reserve" do

@@ -23,8 +23,7 @@ module P4
         user_balance = self.find_or_create_by_user_id user_id
         if user_balance.qty >= qty
           transaction do
-            user_balance.qty = (user_balance.qty - qty)
-            user_balance.save!
+            user_balance.update_attribute :qty, (user_balance.qty - qty)
             user_balance.trans_reserve.create!(game_id: game_id, qty: qty)
           end
           true
@@ -38,8 +37,7 @@ module P4
         qty = user_balance.trans_reserve.where(game_id: game_id).sum(:qty)
         qty -= user_balance.trans_free.where(game_id: game_id).sum(:qty)
         transaction do
-          user_balance.qty = (user_balance.qty + qty)
-          user_balance.save!
+          user_balance.update_attribute :qty, (user_balance.qty + qty)
           user_balance.trans_free.create!(game_id: game_id, qty: qty)
         end
       end
@@ -47,8 +45,7 @@ module P4
       def self.gain game_id, user_id, qty
         user_balance = self.find_or_create_by_user_id user_id
         transaction do
-          user_balance.qty = (user_balance.qty + qty)
-          user_balance.save!
+          user_balance.update_attribute :qty, (user_balance.qty + qty)
           user_balance.trans_gain.create!(game_id: game_id, qty: qty)
         end
       end
@@ -56,8 +53,7 @@ module P4
       def self.lose game_id, user_id, qty
         user_balance = self.find_or_create_by_user_id user_id
         transaction do
-          user_balance.qty = (user_balance.qty - qty)
-          user_balance.save!
+          user_balance.update_attribute :qty, (user_balance.qty - qty)
           user_balance.trans_lose.create!(game_id: game_id, qty: qty)
         end
       end
