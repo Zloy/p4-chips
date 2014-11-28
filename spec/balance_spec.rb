@@ -50,9 +50,9 @@ describe P4::Chips::Balance do
     expect(P4::Chips::Balance.for_user_id(2).qty).to eq 70
     expect(P4::Chips::Balance.for_user_id(3).qty).to eq 970
 
-    expect(P4::Chips::Balance.free 304565, 1).to be false
-    expect(P4::Chips::Balance.free 304565, 2).to be true
-    expect(P4::Chips::Balance.free 304565, 3).to be true
+    P4::Chips::Balance.free 304565, 1
+    P4::Chips::Balance.free 304565, 2
+    P4::Chips::Balance.free 304565, 3
 
     expect(P4::Chips::Balance.for_user_id(1).qty).to eq 0
     expect(P4::Chips::Balance.for_user_id(2).qty).to eq 100

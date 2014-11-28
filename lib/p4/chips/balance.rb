@@ -37,15 +37,10 @@ module P4
         user_balance = self.find_or_create_by_user_id user_id
         qty = user_balance.trans_reserve.where(game_id: game_id).sum(:qty)
         qty -= user_balance.trans_free.where(game_id: game_id).sum(:qty)
-        unless qty == 0
-          transaction do
-            user_balance.qty = (user_balance.qty + qty)
-            user_balance.save!
-            user_balance.trans_free.create!(game_id: game_id, qty: qty)
-          end
-          true
-        else
-          false
+        transaction do
+          user_balance.qty = (user_balance.qty + qty)
+          user_balance.save!
+          user_balance.trans_free.create!(game_id: game_id, qty: qty)
         end
       end
 
