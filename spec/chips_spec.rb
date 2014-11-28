@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'standalone_migrations'
-require 'pry-byebug'
 require 'p4/chips/test_user'
 
 describe P4::Chips do

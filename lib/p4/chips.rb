@@ -1,4 +1,5 @@
 require "active_record"
+require 'standalone_migrations'
 require "p4/chips/version"
 require "p4/chips/transaction"
 
