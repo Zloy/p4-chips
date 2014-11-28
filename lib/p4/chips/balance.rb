@@ -1,6 +1,7 @@
 require 'p4/chips/transaction_reserve'
 require 'p4/chips/transaction_free'
 require 'p4/chips/transaction_gain'
+require 'p4/chips/transaction_lose'
 
 module P4
   module Chips
@@ -12,6 +13,7 @@ module P4
       has_many :trans_reserve, :class_name => "P4::Chips::TransactionReserve"
       has_many :trans_free,    :class_name => "P4::Chips::TransactionFree"
       has_many :trans_gain,    :class_name => "P4::Chips::TransactionGain"
+      has_many :trans_lose,    :class_name => "P4::Chips::TransactionLose"
 
       def self.for_user_id user_id
         find_or_create_by_user_id(user_id)
@@ -53,6 +55,15 @@ module P4
           user_balance.qty = (user_balance.qty + qty)
           user_balance.save!
           user_balance.trans_gain.create!(game_id: game_id, qty: qty)
+        end
+      end
+
+      def self.lose game_id, user_id, qty
+        user_balance = self.find_or_create_by_user_id user_id
+        transaction do
+          user_balance.qty = (user_balance.qty - qty)
+          user_balance.save!
+          user_balance.trans_lose.create!(game_id: game_id, qty: qty)
         end
       end
     end
