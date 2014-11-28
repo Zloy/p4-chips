@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'yaml'
 require 'standalone_migrations'
 require 'pry-byebug'
 require 'p4/chips/test_user'
