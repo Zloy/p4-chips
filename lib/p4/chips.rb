@@ -17,8 +17,7 @@ module P4
     end
 
     def self.fix_game game_id
-      @@game_results      = nil
-      self.send :create_game_results, game_id
+      @@game_results = self.send :create_game_results, game_id
       yield
       self.send :fix_game_results
       @@game_results
@@ -27,7 +26,7 @@ module P4
     # private
 
     def self.create_game_results game_id
-      @@game_results = {game_id: game_id, players: []}
+      {game_id: game_id, players: []}
     end
 
     def self.fix_player player_id, chips
