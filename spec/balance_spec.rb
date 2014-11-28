@@ -58,4 +58,12 @@ describe P4::Chips::Balance do
     expect(P4::Chips::Balance.for_user_id(2).qty).to eq 100
     expect(P4::Chips::Balance.for_user_id(3).qty).to eq 1000
   end
+
+  it ".gain" do
+    P4::Chips::Balance.gain 304565, 2, 700
+    P4::Chips::Balance.gain 304565, 3, 60
+
+    expect(P4::Chips::Balance.for_user_id(2).qty).to eq 800
+    expect(P4::Chips::Balance.for_user_id(3).qty).to eq 1060
+  end
 end
