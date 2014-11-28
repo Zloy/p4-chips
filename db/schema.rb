@@ -11,17 +11,23 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20141126151129) do
+ActiveRecord::Schema.define(:version => 20141128090108) do
+
+  create_table "p4_chips_balances", :force => true do |t|
+    t.integer  "user_id",                   :null => false
+    t.integer  "qty",        :default => 0
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
+  end
 
   create_table "p4_chips_test_users", :force => true do |t|
     t.string "name", :null => false
   end
 
   create_table "p4_chips_transactions", :force => true do |t|
-    t.integer  "user_id",    :null => false
-    t.integer  "game_id",    :null => false
-    t.integer  "qty"
-    t.float    "amount"
+    t.integer  "balance_id", :null => false
+    t.integer  "game_id"
+    t.integer  "qty",        :null => false
     t.string   "type"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
