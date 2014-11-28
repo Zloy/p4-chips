@@ -3,11 +3,6 @@ require 'p4/chips/balance'
 
 describe P4::Chips::Balance do
 
-  before :all do
-    db_connection_config = { adapter: 'sqlite3', database: 'db/test.sqlite3' }
-    P4::Chips.configure P4::Chips::TestUser, :id, :chips, db_connection_config
-  end
-
   before :each do
     # start balances
     b = P4::Chips::Balance.find_or_create_by_user_id 2

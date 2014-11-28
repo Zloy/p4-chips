@@ -6,7 +6,9 @@ RSpec.configure do |config|
 
   config.before :all do
     db_connection_config = { adapter: 'sqlite3', database: 'db/test.sqlite3' }
-    P4::Chips.configure P4::Chips::TestUser, :id, :chips, db_connection_config
+    ActiveRecord::Base.establish_connection db_connection_config
+
+    P4::Chips.configure P4::Chips::TestUser, :id, :chips
   end
 
   require 'database_cleaner'
