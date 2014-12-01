@@ -52,19 +52,17 @@ describe P4::Chips::Balance do
     expect(P4::Chips::Balance.for_user_id(3).qty).to eq 1000
   end
 
-  it ".gain" do
-    P4::Chips::Balance.gain 304565, 2, 700
-    P4::Chips::Balance.gain 304565, 3, 60
+  it ".add" do
+    P4::Chips::Balance.add 304565, 2, 700
+    P4::Chips::Balance.add 304565, 3, 60
 
     expect(P4::Chips::Balance.for_user_id(2).qty).to eq 800
     expect(P4::Chips::Balance.for_user_id(3).qty).to eq 1060
-  end
 
-  it ".lose" do
-    P4::Chips::Balance.lose 304565, 2, 700
-    P4::Chips::Balance.lose 304565, 3, 60
+    P4::Chips::Balance.add 304565, 2, -700
+    P4::Chips::Balance.add 304565, 3, -120
 
-    expect(P4::Chips::Balance.for_user_id(2).qty).to eq -600
+    expect(P4::Chips::Balance.for_user_id(2).qty).to eq 100
     expect(P4::Chips::Balance.for_user_id(3).qty).to eq 940
   end
 end

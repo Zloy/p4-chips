@@ -1,6 +1,6 @@
 module P4
   module Chips
-    class TransactionGain< Transaction
+    class TransactionResult< Transaction
       validates :game_id, presence: true
     end
   end
