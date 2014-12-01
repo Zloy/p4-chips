@@ -16,10 +16,14 @@ module P4
     end
 
     def self.fix_game game_id
-      @@game_results = self.send :create_game_results, game_id
-      yield
-      self.send :fix_game_results
-      @@game_results
+      P4::Chips::Balance.transaction do
+        @@game_results = self.send :create_game_results, game_id
+
+        yield
+        
+        self.send :persist_game_results, @@game_results
+        @@game_results
+      end
     end
 
     # private
@@ -40,16 +44,20 @@ module P4
       end
     end
 
-    def self.fix_game_results
-      # preform actions with @@game_results here
-      @@game_results
+    def self.persist_game_results game_results
+      game_id = game_results[:game_id]
+      game_results[:players].each do |player_result|
+        player_id = player_result[:player_id]
+        chips     = player_result[:chips]
+        P4::Chips::Balance.add game_id, player_id, chips
+      end
     end
 
     def self.game_results_valid?
       @@game_results[:players].map{|e| e[:chips]}.inject(:+) == 0
     end
 
-    private_class_method :create_game_results, :fix_player, :fix_game_results
+    private_class_method :create_game_results, :fix_player, :persist_game_results
 
     class Player
       def initialize player_id
