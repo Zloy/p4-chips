@@ -14,12 +14,12 @@ describe P4::Chips do
   end
 
   it "User#chips object should have certain public methods" do
-    expect((p1.chips.methods - Object.instance_methods).sort).to eq [:gain, :lose]
+    expect((p1.chips.methods - Object.instance_methods).sort).to eq [:gain, :lose, :reserve]
   end
 
   it "Chips module should have certain public methods" do
     expect((P4::Chips.methods - Class.methods).sort).to eq \
-      [:configure, :fix_game, :game_results_valid?, :table_name_prefix]
+      [:configure, :fix_game, :game_results_valid?, :reserve, :table_name_prefix]
   end
 
   it ".fix_game should return proper hash and create proper Balance and Transaction objects" do
@@ -75,5 +75,24 @@ describe P4::Chips do
       p3.chips.gain 201
     end
     expect(P4::Chips.game_results_valid?).to be false
+  end
+
+  it "#reserve" do
+    # start balances
+    b = P4::Chips::Balance.find_or_create_by_user_id p1.id
+    b.update_attribute :qty, 100
+
+    b = P4::Chips::Balance.find_or_create_by_user_id p2.id
+    b.update_attribute :qty, 1000
+
+
+    expect(p1.chips.reserve 4321, 50).to eq true
+    expect(p2.chips.reserve 4321, 50).to eq true
+    expect(P4::Chips::Balance.all.map{|b| [b.user_id, b.qty]}).to eq [
+      [p1.id,  50], [p2.id, 950]
+    ]
+    expect(p1.chips.reserve 3333, 51).to eq false
+    expect(p1.chips.reserve 4321, 51).to eq false
+    expect(p1.chips.reserve 4321, 50).to eq true
   end
 end

@@ -44,6 +44,10 @@ module P4
       end
     end
 
+    def self.reserve game_id, player_id, chips
+      Balance.reserve game_id, player_id, chips
+    end
+
     def self.persist_game_results game_results
       game_id = game_results[:game_id]
       game_results[:players].each do |player_result|
@@ -70,6 +74,10 @@ module P4
 
       def lose chips
         Chips.send :fix_player, @player_id, -chips
+      end
+
+      def reserve game_id, chips
+        Chips.send :reserve, game_id, @player_id, chips
       end
     end
   end
