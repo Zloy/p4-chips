@@ -5,10 +5,10 @@ Provide game virtual chips, handle game and players chips balances, gains and lo
 
 ## Testing
 
-  cd <gem root directory>
-  rake db:create
-  rake db:migrate DB=test
-  rake spec
+    cd <gem root directory>
+    rake db:create
+    rake db:migrate DB=test
+    rake spec
 
 ## Chips
 
@@ -27,9 +27,9 @@ The Player object identifier should be an Integer. It also needs api entry point
     
     # or
 
-    P4::Chips.configure Player, :email, :chips # here Player is a class to be granted with entry method (:chips)
-                                               # here :email is a method of Player object identifier
-                                               # here :chips is a method name to grant Player object with
+    P4::Chips.configure P4::Chips::TestUser, :email, :chips # here P4::Chips::TestUser is a class to be granted with entry method (:chips)
+                                               # here :email is a getter of P4::Chips::TestUser object identifier
+                                               # here :chips is a method to grant Player object with
 
 ### Checking chips balances
 
