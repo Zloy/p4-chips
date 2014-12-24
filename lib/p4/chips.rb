@@ -20,7 +20,7 @@ module P4
       P4::Chips::Balance.transaction do
         @@game_results = self.send :create_game_results, game_id
 
-        yield
+        yield game_id
         
         self.send :persist_game_results, @@game_results
         @@game_results
