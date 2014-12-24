@@ -6,15 +6,15 @@ module P4
       end
 
       def gain chips
-        Chips.send :fix_player, @player_id, chips
+        Chips.send :fix_player, @player_id, chips.abs
       end
 
       def lose chips
-        Chips.send :fix_player, @player_id, -chips
+        Chips.send :fix_player, @player_id, -chips.abs
       end
 
       def reserve game_id, chips
-        Chips.send :reserve, game_id, @player_id, chips
+        Chips.send :reserve, game_id, @player_id, chips.abs
       end
     end
   end
