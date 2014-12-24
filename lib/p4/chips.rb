@@ -2,6 +2,7 @@ require "active_record"
 require 'standalone_migrations'
 require "p4/chips/version"
 require "p4/chips/transaction"
+require "p4/chips/player"
 
 module P4
   module Chips
@@ -63,22 +64,5 @@ module P4
 
     private_class_method :create_game_results, :fix_player, :persist_game_results
 
-    class Player
-      def initialize player_id
-        @player_id= player_id
-      end
-
-      def gain chips
-        Chips.send :fix_player, @player_id, chips
-      end
-
-      def lose chips
-        Chips.send :fix_player, @player_id, -chips
-      end
-
-      def reserve game_id, chips
-        Chips.send :reserve, game_id, @player_id, chips
-      end
-    end
   end
 end
