@@ -77,6 +77,11 @@ or could perform a series of intermediate results fixation:
       player1.chips.gain(20)
       player2.chips.lose(20)
     end
+    ...
+    Chips.fix_game(324565) do # game_id
+      player1.chips.gain(180)
+      player2.chips.lose(180)
+    end
 
 If the game tries to fix more chips than left reserved to it, `P4::BALANCE::INSUFFICIENT_FUNDS` exception is being raised.
 
