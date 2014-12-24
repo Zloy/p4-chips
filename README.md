@@ -60,18 +60,18 @@ Entire game could be canceled
 
     Chips.free_game(324565) # game_id
 
-### Win/lose game results fixing
+### Win/lose game results fix
 
 When the game ends one player (or some of them) win chips, others lose.
 
-The game could fix the final result
+The game could fix the final result at once
     
     Chips.fix_game(324565) do # game_id
       player1.chips.gain(200)
       player2.chips.lose(200)
     end
 
-or could perform a series of intermediate results fixation: 
+or could perform a series of intermediate results fixes: 
 
     Chips.fix_game(324565) do # game_id
       player1.chips.gain(20)
