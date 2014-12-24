@@ -16,6 +16,14 @@ module P4
       def reserve game_id, chips
         Chips.send :reserve, game_id, @player_id, chips.abs
       end
+
+      def buy chips, &block
+        Chips.send :buy,  @player_id, chips.abs, &block
+      end
+
+      #def sell chips, &block
+      #  Chips.send :sell, @player_id, chips.abs, &block
+      #end
     end
   end
 end

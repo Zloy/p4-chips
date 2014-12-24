@@ -6,6 +6,7 @@ require "p4/chips/player"
 
 module P4
   module Chips
+      
     def self.table_name_prefix
       'p4_chips_'
     end
@@ -48,6 +49,14 @@ module P4
     def self.reserve game_id, player_id, chips
       Balance.reserve game_id, player_id, chips.abs
     end
+
+    def self.buy  player_id, chips, &block
+      Balance.trade player_id, chips.abs, &block
+    end
+
+    #def self.sell player_id, chips, &block
+    #  Balance.trade player_id, -chips.abs, &block
+    #end
 
     def self.persist_game_results game_results
       game_id = game_results[:game_id]

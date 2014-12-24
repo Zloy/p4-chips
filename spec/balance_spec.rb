@@ -65,4 +65,22 @@ describe P4::Chips::Balance do
     expect(P4::Chips::Balance.for_user_id(2).qty).to eq 100
     expect(P4::Chips::Balance.for_user_id(3).qty).to eq 940
   end
+
+  it ".trade" do
+    P4::Chips::Balance.trade 1, 30 do |qty|
+      expect(qty).to eql 30 
+    end
+    expect(P4::Chips::Balance.for_user_id(1).qty).to eq 30
+
+    
+    P4::Chips::Balance.trade 2, -100 do |qty|
+      expect(qty).to eql 100 
+    end
+    expect(P4::Chips::Balance.for_user_id(2).qty).to eq 0
+
+
+    expect{P4::Chips::Balance.trade 2, -100 do |qty|
+    end}.to raise_error P4::Chips::InsufficientFunds
+    expect(P4::Chips::Balance.for_user_id(2).qty).to eq 0
+  end
 end
