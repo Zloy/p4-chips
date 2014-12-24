@@ -60,7 +60,7 @@ Entire game could be canceled
 
     Chips.free_game(324565) # game_id
 
-### Win/lose game results fix
+### Win, lose game results fix
 
 When the game ends one player (or some of them) win chips, others lose.
 
