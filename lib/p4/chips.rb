@@ -46,7 +46,7 @@ module P4
     end
 
     def self.reserve game_id, player_id, chips
-      Balance.reserve game_id, player_id, chips
+      Balance.reserve game_id, player_id, chips.abs
     end
 
     def self.persist_game_results game_results
