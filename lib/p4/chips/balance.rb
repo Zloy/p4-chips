@@ -20,10 +20,10 @@ module P4
 
       def self.reserve game_id, user_id, qty
         user_balance = self.find_or_create_by_user_id user_id
-        if user_balance.qty >= qty
+        if user_balance.qty >= qty.abs
           transaction do
-            user_balance.update_attributes qty: (user_balance.qty - qty)
-            user_balance.trans_reserve.create!(game_id: game_id, qty: qty)
+            user_balance.update_attributes qty: (user_balance.qty - qty.abs)
+            user_balance.trans_reserve.create!(game_id: game_id, qty: qty.abs)
           end
           true
         else
