@@ -37,7 +37,7 @@ module P4
         transaction do
           raise P4::Chips::InsufficientFunds unless 
             user_balance.update_attributes qty: (user_balance.qty + qty)
-          user_balance.trans_reserve.create!(game_id: game_id, qty: -qty)
+          user_balance.trans_reserve.where(game_id: game_id).destroy_all
         end
       end
 
