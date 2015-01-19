@@ -18,11 +18,11 @@ describe P4::Chips do
     #expect((p1.chips.methods - Object.instance_methods).sort).to eq [:buy, :gain, :lose, :reserve, :sell]
   end
 
-  it "Chips module should have certain public methods" do
-    expect((P4::Chips.methods - Class.methods).sort).to eq \
-      [:buy, :configure, :fix_game, :game_results_valid?, :reserve, :table_name_prefix]
-      #[:buy, :configure, :fix_game, :game_results_valid?, :reserve, :sell, :table_name_prefix]
-  end
+  it { should respond_to(:buy) }
+  it { should respond_to(:configure) }
+  it { should respond_to(:fix_game) }
+  it { should respond_to(:game_results_valid?) }
+  it { should respond_to(:reserve) }
 
   it ".fix_game should return proper hash and create proper Balance and Transaction objects" do
     p1.chips.buy 200 do |qty|;end

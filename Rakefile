@@ -5,5 +5,5 @@ require 'standalone_migrations'
 StandaloneMigrations::Tasks.load_tasks
 RSpec::Core::RakeTask.new
 
-task :default => :spec
+task :default => ['db:drop', 'db:setup', :spec]
 task :test => :spec
