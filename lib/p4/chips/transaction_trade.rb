@@ -1,6 +1,6 @@
 module P4
   module Chips
-    class TransactionTrade< Transaction
+    class TransactionTrade < Transaction
     end
   end
 end

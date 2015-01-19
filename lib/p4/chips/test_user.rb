@@ -1,6 +1,6 @@
 module P4
   module Chips
-    class TestUser< ActiveRecord::Base
+    class TestUser < ActiveRecord::Base
     end
   end
 end

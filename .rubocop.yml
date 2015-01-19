@@ -1,0 +1,9 @@
+AllCops:
+  Exclude:
+  - db/schema.rb
+  - p4-chips.gemspec
+
+Style/Documentation:
+  Exclude:
+    - lib/**/*.rb
+    - db/migrate/*.rb
