@@ -9,9 +9,7 @@ Provide game virtual chips, handle game and players chips balances, gains and lo
 ## Testing
 
     cd <gem root directory>
-    rake db:create
-    rake db:migrate DB=test
-    rake spec
+    bundle exec rake
 
 ## Chips
 
@@ -33,6 +31,22 @@ The Player object identifier should be an Integer. It also needs api entry point
     P4::Chips.configure P4::Chips::TestUser, :email, :chips # here P4::Chips::TestUser is a class to be granted with entry method (:chips)
                                                # here :email is a getter of P4::Chips::TestUser object identifier
                                                # here :chips is a method to grant Player object with
+
+### Buying, selling chips
+
+To get chips a player should buy them. DB transaction takes place in a block.
+
+    player1.chips.buy(2800) do |chips|
+      # withdraw player1 money here
+    end
+
+A player can sell chips. DB transaction takes place in a block.
+
+    player1.chips.sell(1600) do |chips|
+      # deposit player1 money here
+    end
+
+If player1 has less free chips than to be sold, `P4::BALANCE::INSUFFICIENT_FUNDS` exception is being raised.
 
 ### Checking chips balances
 
@@ -87,19 +101,3 @@ or could perform a series of intermediate results fixes:
     end
 
 If the game tries to fix more chips than left reserved to it, `P4::BALANCE::INSUFFICIENT_FUNDS` exception is being raised.
-
-### Buying, selling chips
-
-To get chips a player should buy them. DB transaction takes place in a block.
-
-    player1.chips.buy(400) do |chips|
-      # withdraw player1 money here
-    end
-
-A player could sell chips. DB transaction takes place in a block.
-
-    player1.chips.sell(1600) do |chips|
-      # deposit player1 money here
-    end
-
-If player1 has less free chips than to be sold, `P4::BALANCE::INSUFFICIENT_FUNDS` exception is being raised.
