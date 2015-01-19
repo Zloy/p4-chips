@@ -22,3 +22,6 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 end
+
+require 'coveralls'
+Coveralls.wear!

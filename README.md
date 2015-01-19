@@ -1,3 +1,5 @@
+[![Coverage Status](https://coveralls.io/repos/Zloy/p4-chips/badge.png)](https://coveralls.io/r/Zloy/p4-chips)
+
 p4-chips
 =======
 
