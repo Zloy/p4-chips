@@ -101,3 +101,5 @@ or could perform a series of intermediate results fixes:
     end
 
 If the game tries to fix more chips than left reserved to it, `P4::BALANCE::INSUFFICIENT_FUNDS` exception is being raised.
+
+test
