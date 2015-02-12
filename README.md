@@ -24,13 +24,13 @@ Chips are measured in natural numbers.
 This gem should be informed of Player class and Player object method which returns player identifier. 
 The Player object identifier should be an Integer. It also needs api entry point name. 
 
-    P4::Chips.configure User, :id, :balance    # here User object has :id method and is to be granted :balance entry method
-    
-    # or
+Here `User` object has `:id` method and is to be granted `:balance` entry method
 
-    P4::Chips.configure P4::Chips::TestUser, :email, :chips # here P4::Chips::TestUser is a class to be granted with entry method (:chips)
-                                               # here :email is a getter of P4::Chips::TestUser object identifier
-                                               # here :chips is a method to grant Player object with
+    P4::Chips.configure User, :id, :balance
+    
+and here `P4::Chips::TestUser` object has `:id` method and is to be granted `:chips` entry method
+
+    P4::Chips.configure P4::Chips::TestUser, :id, :chips
 
 ### Buying, selling chips
 
@@ -101,5 +101,3 @@ or could perform a series of intermediate results fixes:
     end
 
 If the game tries to fix more chips than left reserved to it, `P4::BALANCE::INSUFFICIENT_FUNDS` exception is being raised.
-
-test
